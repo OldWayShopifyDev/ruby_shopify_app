@@ -2,7 +2,7 @@
 require 'shopify_app/version'
 
 # deps
-require 'shopify_api'
+require 'ruby_shopify_api'
 require 'omniauth/rails_csrf_protection'
 require 'omniauth-shopify-oauth2'
 require 'redirect_safely'

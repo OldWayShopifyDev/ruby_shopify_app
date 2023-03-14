@@ -3,10 +3,11 @@ $LOAD_PATH.push(File.expand_path('../lib', __FILE__))
 require "shopify_app/version"
 
 Gem::Specification.new do |s|
-  s.name        = "shopify_app"
+  s.name        = "ruby_shopify_app"
   s.version     = ShopifyApp::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.author      = "Shopify"
+  s.authors = ["Hopper Gee"]
+  s.email = ["hopper.gee@hey.com"]
   s.summary     = 'This gem is used to get quickly started with the Shopify API'
 
   s.required_ruby_version = ">= 2.6"
@@ -16,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('browser_sniffer', '~> 1.4.0')
   s.add_runtime_dependency('omniauth-rails_csrf_protection')
   s.add_runtime_dependency('rails', '> 5.2.1')
-  s.add_runtime_dependency('shopify_api', '~> 9.4')
+  s.add_runtime_dependency('ruby_shopify_api', '~> 1.0')
   s.add_runtime_dependency('omniauth-shopify-oauth2', '~> 2.3')
   s.add_runtime_dependency('jwt', '>= 2.2.3')
   s.add_runtime_dependency('redirect_safely', '~> 1.0')

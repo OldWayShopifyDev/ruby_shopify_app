@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('browser_sniffer', '~> 2.0')
   s.add_runtime_dependency('omniauth-rails_csrf_protection')
   s.add_runtime_dependency('rails', '> 5.2.1')
-  s.add_runtime_dependency('ruby_shopify_api', '~> 1.0')
+  s.add_runtime_dependency('ruby_shopify_api', '~> 1.1')
   s.add_runtime_dependency('omniauth-shopify-oauth2', '~> 2.3')
   s.add_runtime_dependency('jwt', '>= 2.2.3')
   s.add_runtime_dependency('redirect_safely', '~> 1.0')

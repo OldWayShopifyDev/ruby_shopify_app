@@ -25,11 +25,6 @@ This gem includes a Rails engine, generators, modules, and mixins that help crea
 <!-- This section is linked to in `templates/shopify_app.rb.tt`. Be careful renaming this heading. -->
 ## Requirements
 
-> **Rails compatibility** 
-> * Use Shopify App `<= v7.2.8` if you need to work with Rails 4.
-
-To become a Shopify app developer, you will need a [Shopify Partners](https://www.shopify.com/partners) account. Explore the [Shopify dev docs](https://shopify.dev/concepts/shopify-introduction) to learn more about [building Shopify apps](https://shopify.dev/concepts/apps).
-
 This gem requires that you have the following credentials:
 
 - **Shopify API key:** The API key app credential specified in your [Shopify Partners dashboard](https://partners.shopify.com/organizations). 
@@ -46,7 +41,7 @@ $ rails new my_shopify_app
 2. Add the Shopify App gem to `my_shopify_app`'s Gemfile.
 
 ```sh
-$ bundle add shopify_app
+$ bundle add ruby_shopify_app
 ```
 
 3. Create a `.env` file in the root of `my_shopify_app` to specify your Shopify API credentials:

@@ -24,7 +24,7 @@ module ShopifyApp
       webhook = { 'foo' => 'bar' }
       job_args = { shop_domain: "test.myshopify.com", webhook: webhook }
 
-      OrderUpdateJob.expects(:perform_later).with(job_args)
+      OrderUpdateJob.expects(:perform_later).with(**job_args)
 
       send_webhook 'order_update', webhook
       assert_response :ok

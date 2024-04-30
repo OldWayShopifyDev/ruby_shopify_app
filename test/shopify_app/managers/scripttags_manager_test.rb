@@ -109,7 +109,7 @@ class ShopifyApp::ScripttagsManagerTest < ActiveSupport::TestCase
 
   def expect_scripttag_creation(event, src)
     stub_scripttag = stub(persisted?: true)
-    ShopifyAPI::ScriptTag.expects(:create).with(event: event, src: src, format: 'json').returns(stub_scripttag)
+    ShopifyAPI::ScriptTag.expects(:create).with({event: event, src: src, format: 'json'}).returns(stub_scripttag)
   end
 
   def all_mock_scripttags

@@ -27,7 +27,7 @@ class LoginProtectionController < ActionController::Base
   end
 
   def redirect
-    fullpage_redirect_to("https://example.com")
+    fullpage_redirect_to("https://test.host")
   end
 
   def raise_unauthorized
@@ -177,7 +177,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
     with_application_test_routes do
       session[:shop_id] = "1"
       session[:shopify_domain] = "foobar"
-      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@example.com' }
+      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@test.host' }
       session[:user_session] = 'old-user-session'
       params = { shop: 'foobar', session: 'new-user-session' }
       get :second_login, params: params
@@ -192,13 +192,13 @@ class LoginProtectionControllerTest < ActionController::TestCase
     with_application_test_routes do
       session[:shop_id] = "1"
       session[:shopify_domain] = "foobar"
-      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@example.com' }
+      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@test.host' }
       session[:user_session] = 'old-user-session'
       params = { shop: 'foobar', session: 'old-user-session' }
       get :second_login, params: params
       assert session[:shop_id], "1"
       assert session[:shopify_domain], "foobar"
-      assert session[:shopify_user], { 'id' => 1, 'email' => 'foo@example.com' }
+      assert session[:shopify_user], { 'id' => 1, 'email' => 'foo@test.host' }
       assert session[:user_session], 'old-user-session'
     end
   end
@@ -207,12 +207,12 @@ class LoginProtectionControllerTest < ActionController::TestCase
     with_application_test_routes do
       session[:shop_id] = "1"
       session[:shopify_domain] = "foobar"
-      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@example.com' }
+      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@test.host' }
       session[:user_session] = 'old-user-session'
       get :second_login
       assert session[:shop_id], "1"
       assert session[:shopify_domain], "foobar"
-      assert session[:shopify_user], { 'id' => 1, 'email' => 'foo@example.com' }
+      assert session[:shopify_user], { 'id' => 1, 'email' => 'foo@test.host' }
       assert session[:user_session], 'old-user-session'
     end
   end
@@ -223,7 +223,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
       session[:shop_id] = "foobar"
       session[:user_id] = 123
       session[:shopify_domain] = "foobar"
-      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@example.com' }
+      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@test.host' }
       sess = stub(domain: 'https://foobar.myshopify.com')
       ShopifyApp::SessionRepository.expects(:retrieve_user_session).returns(sess).once
       get :second_login, params: { shop: 'other-shop' }
@@ -270,10 +270,10 @@ class LoginProtectionControllerTest < ActionController::TestCase
   end
 
   test '#activate_shopify_session with no Shopify session, redirects to a custom config login url' do
-    with_custom_login_url 'https://domain.com/custom/route/login' do
+    with_custom_login_url 'https://test.host/custom/route/login' do
       with_application_test_routes do
         get :index, params: { shop: 'foobar' }
-        assert_redirected_to 'https://domain.com/custom/route/login?shop=foobar.myshopify.com'
+        assert_redirected_to 'https://test.host/custom/route/login?shop=foobar.myshopify.com'
       end
     end
   end
@@ -283,7 +283,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
     with_application_test_routes do
       ShopifyApp.configuration.user_session_repository = nil
       @controller.expects(:current_shopify_session).returns(nil)
-      request.headers['Referer'] = 'https://example.com/?shop=my-shop.myshopify.com'
+      request.headers['Referer'] = 'https://test.host/?shop=my-shop.myshopify.com'
 
       get :index
       assert_redirected_to '/login?shop=my-shop.myshopify.com'
@@ -292,14 +292,14 @@ class LoginProtectionControllerTest < ActionController::TestCase
 
   test "#activate_shopify_session with no Shopify session, redirects to a custom config login url with \
         shop param of referer" do
-    with_custom_login_url 'https://domain.com/custom/route/login' do
+    with_custom_login_url 'https://test.host/custom/route/login' do
       with_application_test_routes do
         ShopifyApp.configuration.user_session_repository = nil
         @controller.expects(:current_shopify_session).returns(nil)
-        request.headers['Referer'] = 'https://example.com/?shop=my-shop.myshopify.com'
+        request.headers['Referer'] = 'https://test.host/?shop=my-shop.myshopify.com'
 
         get :index
-        assert_redirected_to 'https://domain.com/custom/route/login?shop=my-shop.myshopify.com'
+        assert_redirected_to 'https://test.host/custom/route/login?shop=my-shop.myshopify.com'
       end
     end
   end
@@ -315,11 +315,11 @@ class LoginProtectionControllerTest < ActionController::TestCase
 
   test '#activate_shopify_session with no Shopify session, redirects to a custom config login url \
         with non-String shop param' do
-    with_custom_login_url 'https://domain.com/custom/route/login' do
+    with_custom_login_url 'https://test.host/custom/route/login' do
       with_application_test_routes do
         params = { shop: { id: 123 } }
         get :index, params: params
-        assert_redirected_to "https://domain.com/custom/route/login?#{params.to_query}"
+        assert_redirected_to "https://test.host/custom/route/login?#{params.to_query}"
       end
     end
   end
@@ -342,7 +342,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
 
   test '#activate_shopify_session with no Shopify session, when the request is a POST, sets session[:return_to]' do
     with_application_test_routes do
-      request.headers['Referer'] = 'https://example.com/?id=123'
+      request.headers['Referer'] = 'https://test.host/?id=123'
       post :index, params: { id: '123', shop: 'foobar' }
       assert_equal '/?id=123&shop=foobar.myshopify.com', session[:return_to]
     end
@@ -393,7 +393,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
     with_application_test_routes do
       session[:shop_id] = 'foobar'
       session[:shopify_domain] = 'foobar'
-      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@example.com' }
+      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@test.host' }
 
       get :raise_unauthorized, params: { shop: 'foobar' }
 
@@ -454,7 +454,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
 
     with_application_test_routes do
       get :redirect
-      assert_redirected_to 'https://example.com'
+      assert_redirected_to 'https://test.host'
     end
   end
 
@@ -487,7 +487,7 @@ class LoginProtectionControllerTest < ActionController::TestCase
   private
 
   def assert_fullpage_redirected(shop_domain, _response)
-    example_url = "https://example.com"
+    example_url = "https://test.host"
 
     assert_template('shared/redirect')
     assert_select '[id=redirection-target]', 1 do |elements|

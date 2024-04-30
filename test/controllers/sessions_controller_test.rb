@@ -90,7 +90,7 @@ module ShopifyApp
     end
 
     test '#new stores root path when return_to url is absolute' do
-      get :new, params: { shop: 'my-shop', return_to: '//example.com' }
+      get :new, params: { shop: 'my-shop', return_to: '//test.host' }
       assert_equal '/', session[:return_to]
     end
 
@@ -140,7 +140,7 @@ module ShopifyApp
     end
 
     test "#new should render a full-page if the shop param value is not a shop" do
-      non_shop_address = "example.com"
+      non_shop_address = "test.host"
       get :new, params: { shop: non_shop_address }
       assert_response :ok
       assert_match(/Shopify App — Installation/, response.body)
@@ -257,7 +257,7 @@ module ShopifyApp
       shop_id = 1
       session[:shopify] = shop_id
       session[:shopify_domain] = 'shop1.myshopify.com'
-      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@example.com' }
+      session[:shopify_user] = { 'id' => 1, 'email' => 'foo@test.host' }
       session[:foo] = 'bar'
 
       get :destroy

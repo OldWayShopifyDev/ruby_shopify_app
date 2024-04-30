@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 $LOAD_PATH.push(File.expand_path('../lib', __FILE__))
-require "shopify_app/version"
+require "ruby_shopify_app/version"
 
 Gem::Specification.new do |s|
   s.name        = "ruby_shopify_app"
@@ -16,17 +16,15 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency('browser_sniffer', '~> 2.0')
   s.add_runtime_dependency('omniauth-rails_csrf_protection')
-  s.add_runtime_dependency('rails', '> 5.2.1')
-  s.add_runtime_dependency('ruby_shopify_api', '~> 1.1')
+  s.add_runtime_dependency('rails', '>= 6.1.0')
+  s.add_runtime_dependency('sprockets-rails', ">= 2.0.0")
+  s.add_runtime_dependency('ruby_shopify_api', '~> 1.2')
   s.add_runtime_dependency('omniauth-shopify-oauth2', '~> 2.3')
   s.add_runtime_dependency('jwt', '>= 2.2.3')
   s.add_runtime_dependency('redirect_safely', '~> 1.0')
 
   s.add_development_dependency('rake')
   s.add_development_dependency('byebug')
-  s.add_development_dependency('pry')
-  s.add_development_dependency('pry-nav')
-  s.add_development_dependency('pry-stack_explorer')
   s.add_development_dependency('rb-readline')
   s.add_development_dependency('sqlite3', '~> 1.4')
   s.add_development_dependency('minitest')

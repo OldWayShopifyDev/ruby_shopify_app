@@ -83,7 +83,7 @@ class ShopifyApp::WebhooksManagerTest < ActiveSupport::TestCase
 
   def expect_webhook_creation(topic, address)
     stub_webhook = stub(persisted?: true)
-    ShopifyAPI::Webhook.expects(:create).with(topic: topic, address: address, format: 'json').returns(stub_webhook)
+    ShopifyAPI::Webhook.expects(:create).with({topic: topic, address: address, format: 'json'}).returns(stub_webhook)
   end
 
   def all_webhook_topics

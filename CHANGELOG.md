@@ -1,4 +1,10 @@
 
+1.1.0
+-----
+
+* Update browser_sniffer to 2.0.0
+* Support Rails 7.0
+
 1.0.0
 -----
 

@@ -1,4 +1,4 @@
-Upcomming
+1.2.0
 -----
 
 * omniauth-shopify-oauth2 => omniauth-shopify-app

@@ -1,3 +1,7 @@
+Upcomming
+-----
+
+* omniauth-shopify-oauth2 => omniauth-shopify-app
 
 1.1.0
 -----

@@ -5,7 +5,7 @@ PATH
       browser_sniffer (~> 2.0)
       jwt (>= 2.2.3)
       omniauth-rails_csrf_protection
-      omniauth-shopify-oauth2 (~> 2.3)
+      omniauth-shopify-app (~> 1.0)
       rails (>= 6.1.0)
       redirect_safely (~> 1.0)
       ruby_shopify_api (~> 1.2)
@@ -102,7 +102,7 @@ GEM
     crass (1.0.6)
     date (3.3.4)
     erubi (1.12.0)
-    faraday (2.9.0)
+    faraday (2.9.1)
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
@@ -138,7 +138,8 @@ GEM
       minitest (>= 4, < 6)
     mocha (2.2.0)
       ruby2_keywords (>= 0.0.5)
-    multi_xml (0.6.0)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     net-http (0.4.1)
       uri
     net-imap (0.4.10)
@@ -165,15 +166,13 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
-    omniauth-oauth2 (1.8.0)
-      oauth2 (>= 1.4, < 3)
-      omniauth (~> 2.0)
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    omniauth-shopify-oauth2 (2.4.0)
+    omniauth-shopify-app (1.0.0)
       activesupport
-      omniauth-oauth2 (~> 1.5)
+      oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
     parallel (1.24.0)
     parser (3.3.1.0)
       ast (~> 2.4.1)

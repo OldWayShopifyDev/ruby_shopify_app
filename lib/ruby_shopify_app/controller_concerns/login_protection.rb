@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'browser_sniffer'
+require "browser_sniffer"
 
 module ShopifyApp
   module LoginProtection
@@ -16,7 +16,7 @@ module ShopifyApp
       rescue_from ActiveResource::UnauthorizedAccess, with: :close_session
     end
 
-    ACCESS_TOKEN_REQUIRED_HEADER = 'X-Shopify-API-Request-Failure-Unauthorized'
+    ACCESS_TOKEN_REQUIRED_HEADER = "X-Shopify-API-Request-Failure-Unauthorized"
 
     def activate_shopify_session
       if user_session_expected? && user_session.blank?
@@ -37,9 +37,7 @@ module ShopifyApp
     end
 
     def current_shopify_session
-      @current_shopify_session ||= begin
-        user_session || shop_session
-      end
+      @current_shopify_session ||= user_session || shop_session
     end
 
     def user_session
@@ -49,12 +47,14 @@ module ShopifyApp
     def user_session_by_jwt
       return unless ShopifyApp.configuration.allow_jwt_authentication
       return unless jwt_shopify_user_id
+
       ShopifyApp::SessionRepository.retrieve_user_session_by_shopify_user_id(jwt_shopify_user_id)
     end
 
     def user_session_by_cookie
       return unless ShopifyApp.configuration.allow_cookie_authentication
       return unless session[:user_id].present?
+
       ShopifyApp::SessionRepository.retrieve_user_session(session[:user_id])
     end
 
@@ -65,12 +65,14 @@ module ShopifyApp
     def shop_session_by_jwt
       return unless ShopifyApp.configuration.allow_jwt_authentication
       return unless jwt_shopify_domain
+
       ShopifyApp::SessionRepository.retrieve_shop_session_by_shopify_domain(jwt_shopify_domain)
     end
 
     def shop_session_by_cookie
       return unless ShopifyApp.configuration.allow_cookie_authentication
       return unless session[:shop_id].present?
+
       ShopifyApp::SessionRepository.retrieve_shop_session(session[:shop_id])
     end
 
@@ -80,8 +82,8 @@ module ShopifyApp
       end
 
       if current_shopify_session &&
-        params[:shop] && params[:shop].is_a?(String) &&
-        (current_shopify_session.domain != params[:shop])
+          params[:shop] && params[:shop].is_a?(String) &&
+          (current_shopify_session.domain != params[:shop])
         clear_session = true
       end
 
@@ -96,19 +98,20 @@ module ShopifyApp
     end
 
     def jwt_expire_at
-      expire_at = request.env['jwt.expire_at']
+      expire_at = request.env["jwt.expire_at"]
       return unless expire_at
+
       expire_at - 5.seconds # 5s gap to start fetching new token in advance
     end
 
     protected
 
     def jwt_shopify_domain
-      request.env['jwt.shopify_domain']
+      request.env["jwt.shopify_domain"]
     end
 
     def jwt_shopify_user_id
-      request.env['jwt.shopify_user_id']
+      request.env["jwt.shopify_user_id"]
     end
 
     def host
@@ -116,7 +119,7 @@ module ShopifyApp
     end
 
     def redirect_to_login
-      if request.xhr?
+      if requested_by_javascript?
         head(:unauthorized)
       else
         if request.get?
@@ -179,14 +182,17 @@ module ShopifyApp
     end
 
     def return_to_param_required?
-      native_params = %i[shop hmac timestamp locale protocol return_to]
-      request.path != '/' || sanitized_params.except(*native_params).any?
+      native_params = [:shop, :hmac, :timestamp, :locale, :protocol, :return_to]
+      request.path != "/" || sanitized_params.except(*native_params).any?
     end
 
     def fullpage_redirect_to(url)
       if ShopifyApp.configuration.embedded_app?
-        render('shopify_app/shared/redirect', layout: false,
-               locals: { url: url, current_shopify_domain: current_shopify_domain })
+        render(
+          "shopify_app/shared/redirect",
+          layout: false,
+          locals: { url: url, current_shopify_domain: current_shopify_domain },
+        )
       else
         redirect_to(url)
       end
@@ -219,6 +225,7 @@ module ShopifyApp
 
     def sanitize_shop_param(params)
       return unless params[:shop].present?
+
       ShopifyApp::Utils.sanitize_shop_domain(params[:shop])
     end
 
@@ -254,6 +261,12 @@ module ShopifyApp
 
     def user_session_expected?
       !ShopifyApp.configuration.user_session_repository.blank? && ShopifyApp::SessionRepository.user_storage.present?
+    end
+
+    def requested_by_javascript?
+      request.xhr? ||
+        request.media_type == "text/javascript" ||
+        request.media_type == "application/javascript"
     end
   end
 end

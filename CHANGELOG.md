@@ -1,3 +1,8 @@
+1.3.2
+-----
+
+* better helper to determine if JS requested action
+
 1.3.1
 -----
 

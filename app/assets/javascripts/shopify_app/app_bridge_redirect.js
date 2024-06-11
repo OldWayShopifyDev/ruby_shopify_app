@@ -1,4 +1,4 @@
-//= require ./app_bridge_2.0.12.js
+//= require ./app_bridge_3.7.8.js
 
 (function(window) {
   function appBridgeRedirect(url) {

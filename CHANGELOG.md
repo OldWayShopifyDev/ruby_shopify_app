@@ -1,3 +1,8 @@
+Unreleased
+-----
+
+* Update redirect.js
+
 1.3.0
 -----
 

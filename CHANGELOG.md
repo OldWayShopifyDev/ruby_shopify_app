@@ -1,4 +1,4 @@
-Unreleased
+1.3.0
 -----
 
 * Upgrade Shopify AppBridge from v2 to v3

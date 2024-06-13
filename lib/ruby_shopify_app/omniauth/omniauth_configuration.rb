@@ -21,6 +21,7 @@ module ShopifyApp
 
     def request_online_tokens?
       return @per_user_permissions unless @per_user_permissions.nil?
+
       default_request_online_tokens?
     end
 
@@ -41,8 +42,9 @@ module ShopifyApp
     end
 
     def default_client_options_site
-      return '' unless shop_domain.present?
-      "https://#{shopify_auth_params[:shop]}"
+      return "" unless shop_domain.present?
+
+      "https://#{shop_domain}"
     end
 
     def default_request_online_tokens?
@@ -54,11 +56,11 @@ module ShopifyApp
     end
 
     def shop_domain
-      request.params['shop'] || (shopify_auth_params && shopify_auth_params['shop'])
+      request.params["shop"] || (shopify_auth_params && shopify_auth_params["shop"])
     end
 
     def shopify_auth_params
-      strategy.session['shopify.omniauth_params']&.with_indifferent_access
+      strategy.session["shopify.omniauth_params"]&.with_indifferent_access
     end
   end
 end

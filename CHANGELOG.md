@@ -1,4 +1,4 @@
-Unreleased
+1.3.3
 -----
 
 * Fix a auth issue happens on safari 8
